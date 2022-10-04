@@ -3,10 +3,13 @@ package palvelinohjelmointi.Bookstore.web;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -47,7 +50,11 @@ public class BookController {
 	    }
 	 
 	 @RequestMapping(value = "/save", method = RequestMethod.POST)
-	 	public String save(Book book){
+	 	public String save(@Valid Book book, BindingResult bindingResult){
+		 if (bindingResult.hasErrors()) {
+			 System.out.println("Error happened");
+			 return "addbook";
+		 }
 		 repository.save(book);
 	     return "redirect:booklist";
 	    } 

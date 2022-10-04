@@ -7,13 +7,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Book {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
-	private String title, author, bookyear, isbn, price;
+	
+	@Size(min = 2, max = 50)
+	private String title, author, isbn, price;
+	@Min(value = 1900, message = "Must be greater than 1899")
+	@Max(value= 2023, message = "Must be less than 2023")
+	private String bookyear;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn (name = "categoryid")
